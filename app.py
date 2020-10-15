@@ -97,7 +97,7 @@ def delete(timeslot_id):
         db.session.delete(timeslot)
         db.session.commit()
         timeslot = timeslots.query.all()
-        return render_template("index.html",timeslot=timeslot,title ='Template')
+        return render_template("index.html",timeslot=timeslot,title ='Home')
 
 
     # Updates entries in the database
@@ -109,8 +109,9 @@ def update():
             my_data.endTime = request.form['endTime']
             db.session.commit()
             slots = timeslots.query.all()
+            return render_template("index.html",newslot = newslot, title = 'Create') 
 
-            return render_template("index.html", timeslot=timeslot, title = 'Home')
+        return render_template("index.html",newslot = newslot, title = 'Create') 
 
 
 

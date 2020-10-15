@@ -24,14 +24,20 @@
 
     <table class="table table-hover table-dark">
         <tr>
-            <th>ID</th>
-            <th>Brand</th>
-            <th>Price</th>
+            <th>Sunday</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+            <th>Start Time</th>
+            <th>End Time</th>
         </tr>
 
         {% for timeslots in timeslot %}
         <tr>
-            <td>{{ timeslots.id }}</td>
+
             <td>{{ timeslots.Sunday }}</td>
             <td>{{ timeslots.Monday }}</td>
             <td>{{ timeslots.Tuesday }}</td>
@@ -58,14 +64,14 @@
 
                         <form action="{{url_for('update')}}" method="POST">
                             <div class="form-group">
-                                <label>Brand:</label>
+                                <label>Start Time:</label>
                                 <input type="hidden" name="id" value="{{timeslots.id}}">
-                                <input type="text" class="form-control" name="brand" value="{{timeslots.startTime}}">
+                                <input type="text" class="form-control" name="startTime" value="{{timeslots.startTime}}">
                             </div>
 
                             <div class="form-group">
-                                <label>Price:</label>
-                                <input type="text" class="form-control" name="price" value="{{timeslots.endTime}}">
+                                <label>End Time:</label>
+                                <input type="text" class="form-control" name="endTime" value="{{timeslots.endTime}}">
                             </div>
 
                             <div class="form-group">
