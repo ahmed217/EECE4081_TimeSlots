@@ -108,10 +108,10 @@ def update():
             my_data.startTime = request.form['startTime']
             my_data.endTime = request.form['endTime']
             db.session.commit()
-            slots = timeslots.query.all()
-            return render_template("index.html",newslot = newslot, title = 'Create') 
+            timeslot = timeslots.query.all()
+            return render_template("index.html", timeslot=timeslot, title = 'Create') 
 
-        return render_template("index.html",newslot = newslot, title = 'Create') 
+        return render_template("index.html", timeslot=timeslot, title = 'Create') 
 
 
 
