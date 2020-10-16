@@ -23,41 +23,53 @@
             <table>
                 <tr>
                     <td>
-                        Sunday<input type="checkbox" name="Sunday" value="true">
+                        <th>Sunday</th><th><input type="checkbox" name="Sunday" value="true"></th>
                     </td>
 
                     <td>
-                        Monday<input type="checkbox" name="Monday" value="true">
+                        <th>Monday</th><th><input type="checkbox" name="Monday" value="true"></th>
                     </td>
 
                     <td>
-                        Tuesday<input type="checkbox" name="Tuesday" value="true">
+                        <th>Tuesday</th><th><input type="checkbox" name="Tuesday" value="true"></th>
                     </td>
 
                     <td>
-                        Wednesday<input type="checkbox" name="Wednesday" value="true">
+                        <th>Wednesday</th><th><input type="checkbox" name="Wednesday" value="true"></th>
                     </td>
 
                     <td>
-                        Thursday<input type="checkbox" name="Thursday" value="true">
+                        <th>Thursday</th><th><input type="checkbox" name="Thursday" value="true"></th>
                     </td>
 
                     <td>
-                        Friday<input type="checkbox" name="Friday" value="true">
+                        <th>Friday</th><th><input type="checkbox" name="Friday" value="true"></th>
                     </td>
 
                     <td>
-                        Saturday<input type="checkbox" name="Saturday" value="true">
+                        <th>Saturday</th><th><input type="checkbox" name="Saturday" value="true"></th>
                     </td>
                 </tr>
             </table>
             <table>
                 <tr>
                     <td>
-                        Start Time<input name="StartTime" class="form-control" type="text">
+                        <th>Start Time</th><th><input name="StartTime" class="form-control" type="text"></th>
                     </td>
                     <td>
-                        End Time<input name="EndTime" class="form-control" type="text">
+                        <select name="startTime_AMPM" class="form-control">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </td>
+                    <td>
+                        <th>End Time</th><th><input name="EndTime" class="form-control" type="text"></th>
+                    </td>
+                    <td>
+                        <select name="endTime_AMPM" class="form-control">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
                     </td>
                 </tr>
             </table>

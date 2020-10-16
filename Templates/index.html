@@ -24,37 +24,27 @@
 
     <table class="table table-hover table-dark">
         <tr>
-            <th>Sunday</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th>Start Time</th>
-            <th>End Time</th>
+            <th>Days of Week</th>
+            <th>Time Slot</th>
+            <th></th>
+            <th></th>
         </tr>
 
-        {% for timeslots in timeslot %}
+        {% for timeSlots in timeslot %}
         <tr>
 
-            <td>{{ timeslots.Sunday }}</td>
-            <td>{{ timeslots.Monday }}</td>
-            <td>{{ timeslots.Tuesday }}</td>
-            <td>{{ timeslots.Wednesday }}</td>
-            <td>{{ timeslots.Thursday }}</td>
-            <td>{{ timeslots.Friday }}</td>
-            <td>{{ timeslots.Saturday }}</td>
-            <td>{{ timeslots.startTime }}</td>
-            <td>{{ timeslots.endTime }}</td>
+
+            <th>{{ timeSlots.daysOfWeek }}</th>
+            <th>{{ timeSlots.startTime }} {{ timeSlots.startTime_AMPM }} - {{ timeSlots.endTime }} {{ timeSlots.endTime_AMPM  }}</th>
+
 
             <td>
-                <a href="/update/{{timeslots.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{timeslots.id}}">Update</a>
-                <a href="/delete/{{timeslots.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Confirm Delete?')">Delete</a>
+                <a href="/update/{{timeSlots.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{timeSlots.id}}">Update</a>
+                <a href="/delete/{{timeSlots.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Confirm Delete?')">Delete</a>
             </td>
         </tr>
 
-        <div id="modaledit{{timeslots.id}}" class="modal fade" role="dialog">
+        <div id="modaledit{{timeSlots.id}}" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -63,15 +53,37 @@
                     <div class="modal-body">
 
                         <form action="{{url_for('update')}}" method="POST">
+
                             <div class="form-group">
                                 <label>Start Time:</label>
-                                <input type="hidden" name="id" value="{{timeslots.id}}">
-                                <input type="text" class="form-control" name="startTime" value="{{timeslots.startTime}}">
+                                <input type="hidden" name="id" value="{{timeSlots.id}}">
+                                <input type="text" class="form-control" name="startTime" value="{{timeSlots.startTime}}">
+                            </div>
+
+                            <div class="form-group">
+                                <select name="startTime_AMPM" class="form-control">
+                                    <option value={{ timeSlots.startTime_AMPM  }}>{{ timeSlots.startTime_AMPM  }}</option>
+                                    <option value="AM">AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label>End Time:</label>
-                                <input type="text" class="form-control" name="endTime" value="{{timeslots.endTime}}">
+                                <input type="text" class="form-control" name="endTime" value="{{timeSlots.endTime}}">
+                            </div>
+
+                            <div class="form-group">
+                                <select name="endTime_AMPM" class="form-control">
+                                    <option value={{ timeSlots.endTime_AMPM  }}>{{ timeSlots.endTime_AMPM  }}</option>
+                                    <option value="AM">AM</option>
+                                    <option value="PM">PM</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Days of Week:</label>
+                                <input type="text" class="form-control" name="daysOfWeek" value="{{timeSlots.daysOfWeek}}">
                             </div>
 
                             <div class="form-group">
