@@ -43,64 +43,33 @@ def index():
 @app.route('/create', methods=['GET','POST'])
 def create():
     daysOfWeek = ''
-    isFirst = True
     if request.form:
         if request.form.get("Sunday") == 'true':
-            if isFirst == True:
-                daysOfWeek +=  'U'
-                isFirst == False
-            else:
-                daysOfWeek += ',' + 'U'
+                daysOfWeek += 'U'
 
     if request.form:
         if request.form.get("Monday") == 'true':
-            if isFirst == True:
-                daysOfWeek +=  'M'
-                isFirst == False
-            else:
-                daysOfWeek += ',' + 'M'
+                daysOfWeek += 'M'
 
     if request.form:
         if request.form.get("Tuesday") == 'true':
-            if isFirst == True:
-                daysOfWeek +=  'T'
-                isFirst == False
-            else:
-                daysOfWeek += ',' + 'T'
+                daysOfWeek += 'T'
 
     if request.form:
         if request.form.get("Wednesday") == 'true':
-            if isFirst == True:
-                daysOfWeek +=  'W'
-                isFirst == False
-            else:
-                daysOfWeek += ',' + 'W'
+                daysOfWeek += 'W'
 
     if request.form:
         if request.form.get("Thursday") == 'true':
-            if isFirst == True:
-                daysOfWeek +=  'R'
-                isFirst == False
-            else:
-                daysOfWeek += ',' + 'R'
+                daysOfWeek += 'R'
 
     if request.form:
         if request.form.get("Friday") == 'true':
-            if isFirst == True:
-                daysOfWeek +=  'F'
-                isFirst == False
-            else:
-                daysOfWeek += ',' + 'F'
+                daysOfWeek += 'F'
 
     if request.form:
         if request.form.get("Saturday") == 'true':
-            if isFirst == True:
-                daysOfWeek +=  'S'
-                isFirst == False
-            else:
-                daysOfWeek += ',' + 'S'
-
-        
+                daysOfWeek += 'S'
             
         startTime = request.form.get("StartTime")
         startTime_AMPM = request.form.get("startTime_AMPM")
