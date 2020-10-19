@@ -1,75 +1,119 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta charset="UTF-8"> 
-        <title> Index </title> 
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-<title>{{ title }}</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <title> Index </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <title>{{ title }}</title>
 </head>
 <body>
-	<h1>
-		<b>{{ title }} </b>
-	</h1>
+    <h1>
+        <i>{{ title }} </i>
+    </h1>
 
-	<table class="table table-bordered table-dark">
-		<thead>
-			<tr>
-				<th>Sunday</th>
-				<th>Monday</th>
-				<th>Tuesday</th>
-				<th>Wednesday</th>
-				<th>Thursday</th>
-				<th>Friday</th>
-				<th>Saturday</th>
-				<th>startTime</th>
-				<th>endTime</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for timeslots in timeslot %}
-			<tr>
-				<!-- <td>{{ timeslots.id }}</td> -->
-				<td>{{ timeslots.Sunday }}</td>
-				<td>{{ timeslots.Monday }}</td>
-				<td>{{ timeslots.Tuesday }}</td>
-				<td>{{ timeslots.Wednesday }}</td>
-				<td>{{ timeslots.Thursday }}</td>
-				<td>{{ timeslots.Friday }}</td>
-				<td>{{ timeslots.Saturday }}</td>
-				<td>{{ timeslots.startTime }}</td>
-				<td>{{ timeslots.endTime }}</td>
-				<td><a href="/delete/{{ timeslots.id }}"
-					class="btn btn-danger" onclick="return confirm('Delete?')">Delete</a>
-					| <a href="/update/{{ timeslots.id }}" class="btn btn-primary">Update</a>
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+  
+
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>Days of Week</th>
+            <th>Time Slot</th>
+            <th></th>
+        </tr>
+
+        {% for timeSlots in timeslot %}
+        <tr>
+
+
+            <th>{{ timeSlots.daysOfWeek }}</th>
+            <th>{{ timeSlots.startTime }} {{ timeSlots.startTime_AMPM }} - {{ timeSlots.endTime }} {{ timeSlots.endTime_AMPM  }}</th>
+
+
+            <td>
+                <a href="/update/{{timeSlots.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{timeSlots.id}}">Update</a>
+                <a href="/delete/{{timeSlots.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Confirm Delete?')">Delete</a>
+            </td>
+        </tr>
+
+        <div id="modaledit{{timeSlots.id}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"> <i>Update Timeslot</i></h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <form action="{{url_for('update')}}" method="POST">
+
+                            <div class="form-group">
+                                <label>Start Time:</label>
+                                <input type="hidden" name="id" value="{{timeSlots.id}}">
+                                <input type="text" class="form-control" name="startTime" value="{{timeSlots.startTime}}">
+                            </div>
+
+                            <div class="form-group">
+                                <select name="startTime_AMPM" class="form-control">
+                                    
+                                    <option value="AM" selected="{{timeSlots.startTime_AMPM == 'AM'}}">AM</option>
+                                    <option value="PM" selected="{{timeSlots.startTime_AMPM == 'PM'}}">PM</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>End Time:</label>
+                                <input type="text" class="form-control" name="endTime" value="{{timeSlots.endTime}}">
+                            </div>
+
+                            <div class="form-group">
+                                <select name="endTime_AMPM" class="form-control">
+                                    <option value="AM" selected="{{timeSlots.endTime_AMPM == 'AM'}}">AM</option>
+                                    <option value="PM" selected="{{timeSlots.endTime_AMPM == 'PM'}}">PM</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Days of Week:</label>
+                                <input type="text" class="form-control" name="daysOfWeek" value="{{timeSlots.daysOfWeek}}">
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">update</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+
+            {% endfor %}
+                </div>
+            </div>
+        </div>
+    </table>
+
+
 </body>
 
-<a href="{{ url_for('create') }}" class="btn btn-success"> Add</a>
+<a href="{{ url_for('create') }}" class= "btn btn-success"> Add</a>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-	crossorigin="anonymous"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-	crossorigin="anonymous"></script>
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 </html>
