@@ -1,127 +1,197 @@
-﻿<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta charset="UTF-8">
-    <title> Index </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <title>{{ title }}</title>
-</head>
-<body>
-    <h1>
-        <b>{{ title }} </b>
-    </h1>
+﻿{% extends "layout.html" %}
 
-  
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
 
-    <table class="table table-hover table-dark">
-        <tr>
-            <th>Days of Week</th>
-            <th>Time Slot</th>
-            <th></th>
-            <th></th>
-        </tr>
+                <h2>
+                    <b>{{ title }} </b>
+                </h2>
 
-        {% for timeSlots in timeslot %}
-        <tr>
+                <table class="table table-hover table-dark">
+                    <tr>
+                        <th>Week days</th>
+                        <th>Time period</th>
+                        <th><a href="/create/" class="btn btn-primary" data-toggle="modal" data-target="#modalCreate">New Timeslot</a></th>
+                        <th></th>
+                    </tr>
+
+                    {% for timeSlots in timeslot %}
+                    <tr>
+                        <th>{{ timeSlots.daysOfWeek }}</th>
+                        <th>{{ timeSlots.startTime }} {{ timeSlots.startTime_AMPM }} - {{ timeSlots.endTime }} {{ timeSlots.endTime_AMPM  }}</th>
+
+                        <td>
+                            <a href="/update/{{timeSlots.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{timeSlots.id}}">Update</a>
+                            <a href="/delete/{{timeSlots.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Confirm Delete?')">Delete</a>
+                        </td>
+                    </tr>
 
 
-            <th>{{ timeSlots.daysOfWeek }}</th>
-            <th>{{ timeSlots.startTime }} {{ timeSlots.startTime_AMPM }} - {{ timeSlots.endTime }} {{ timeSlots.endTime_AMPM  }}</th>
 
+                    <div id="modalDelete" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><h2><label>Create Timeslot</label></h2></h4>
+                                </div>
+                                <div class="modal-body">
 
-            <td>
-                <a href="/update/{{timeSlots.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{timeSlots.id}}">Update</a>
-                <a href="/delete/{{timeSlots.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Confirm Delete?')">Delete</a>
-            </td>
-        </tr>
-
-        <div id="modaledit{{timeSlots.id}}" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Update Timeslot</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <form action="{{url_for('update')}}" method="POST">
-
-                            <div class="form-group">
-                                <label>Start Time:</label>
-                                <input type="hidden" name="id" value="{{timeSlots.id}}">
-                                <input type="text" class="form-control" name="startTime" value="{{timeSlots.startTime}}">
+                                    <form action="{{url_for('create')}}" method="POST">
+                                        <div class="form-group">
+                                            <label>Start Time:</label>
+                                            <input name="StartTime" class="form-control" type="text">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">create</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <select name="startTime_AMPM" class="form-control">
-                                    <option value={{ timeSlots.startTime_AMPM  }}>{{ timeSlots.startTime_AMPM  }}</option>
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>End Time:</label>
-                                <input type="text" class="form-control" name="endTime" value="{{timeSlots.endTime}}">
-                            </div>
-
-                            <div class="form-group">
-                                <select name="endTime_AMPM" class="form-control">
-                                    <option value={{ timeSlots.endTime_AMPM  }}>{{ timeSlots.endTime_AMPM  }}</option>
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Days of Week:</label>
-                                <input type="text" class="form-control" name="daysOfWeek" value="{{timeSlots.daysOfWeek}}">
-                            </div>
-
-                            <div class="form-group">
-                                <button class="btn btn-primary" type="submit">update</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+
+
+                    <div id="modalCreate" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><h2><label>Create Timeslot</label></h2></h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="{{url_for('create')}}" method="POST">
+
+                                        <div class="form-group">
+                                            <label>Start Time:</label>
+                                            <input name="StartTime" class="form-control" type="text">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <select name="startTime_AMPM" class="form-control">
+                                                <option value="AM">AM</option>
+                                                <option value="PM">PM</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>End Time:</label>
+                                            <input name="EndTime" class="form-control" type="text">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <select name="endTime_AMPM" class="form-control">
+                                                <option value="AM">AM</option>
+                                                <option value="PM">PM</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label for="monday">Monday</label><input type="checkbox" name="Monday" id="monday" value="true">
+                                            <br>
+                                            <label for="tuesday">Tuesday</label><input type="checkbox" name="Tuesday" id="tuesday" value="true">
+                                            <br>
+                                            <label for="wednesday">Wednesday</label><input type="checkbox" name="Wednesday" id="wednesday" value="true">
+                                            <br>
+                                            <label for="thursday">Thursday</label><input type="checkbox" name="Thursday" id="thursday" value="true">
+                                            <br>
+                                            <label for="friday">Friday</label><input type="checkbox" name="Friday" id="friday" value="true">
+                                            <br>
+                                            <label for="saturday">Saturday</label><input type="checkbox" name="Saturday" id="saturday" value="true">
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">create</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
+
+
+
+                    <div id="modaledit{{timeSlots.id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><h2><label>Update Timeslot</label></h2></h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="{{url_for('update')}}" method="POST">
+
+                                        <div class="form-group">
+                                            <label>Start Time:</label>
+                                            <input type="hidden" name="id" value="{{timeSlots.id}}">
+                                            <input type="text" class="form-control" name="startTime" value="{{timeSlots.startTime}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <select name="startTime_AMPM" class="form-control">
+                                                <option value="AM" {% if timeSlots.startTime_AMPM=='AM' %} selected {% endif %}> AM </option>
+                                                <option value="PM" {% if timeSlots.startTime_AMPM=='PM' %} selected {% endif %}> PM </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>End Time:</label>
+                                            <input type="text" class="form-control" name="endTime" value="{{timeSlots.endTime}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <select name="endTime_AMPM" class="form-control">
+                                                <option value="AM" {% if timeSlots.endTime_AMPM =='AM' %} selected {% endif %}> AM </option>
+                                                <option value="PM" {% if timeSlots.endTime_AMPM =='PM' %} selected {% endif %}> PM </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="monday{{timeSlots.id}}">Monday</label><input type="checkbox" name="Monday" id="monday{{timeSlots.id}}" {{'checked' if 'M' in timeSlots.daysOfWeek else ''}} value="true">
+                                            <br>
+                                            <label for="tuesday{{timeSlots.id}}">Tuesday</label><input type="checkbox" name="Tuesday" id="tuesday{{timeSlots.id}}" {{'checked' if 'T' in timeSlots.daysOfWeek else ''}} value="true">
+                                            <br>
+                                            <label for="wednesday{{timeSlots.id}}">Wednesday</label><input type="checkbox" name="Wednesday" id="wednesday{{timeSlots.id}}" {{'checked' if 'W' in timeSlots.daysOfWeek else ''}} value="true">
+                                            <br>
+                                            <label for="thursday{{timeSlots.id}}">Thursday</label><input type="checkbox" name="Thursday" id="thursday{{timeSlots.id}}" {{'checked' if 'R' in timeSlots.daysOfWeek else ''}} value="true">
+                                            <br>
+                                            <label for="friday{{timeSlots.id}}">Friday</label><input type="checkbox" name="Friday" id="friday{{timeSlots.id}}" {{'checked' if 'F' in timeSlots.daysOfWeek else ''}} value="true">
+                                            <br>
+                                            <label for="saturday{{timeSlots.id}}">Saturday</label><input type="checkbox" name="Saturday" id="saturday{{timeSlots.id}}" {{'checked' if 'S' in timeSlots.daysOfWeek else ''}} value="true">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">update</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
-                </div>
+                </table>
             </div>
         </div>
-    </table>
-
-
-
-
-
-
-
-
-</body>
-
-<a href="{{ url_for('create') }}" class="btn btn-success"> Add</a>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}
