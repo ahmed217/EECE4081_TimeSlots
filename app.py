@@ -44,20 +44,22 @@ db = SQLAlchemy(app)
     #assert b'brand in main_page.data
     #assert b'prince' in main_page.data
 
-
+    # Routes to home page
 @app.route('/') 
 @app.route('/index')
 def index():
     timeslot = timeSlots.query.all()
     return render_template("home.html",timeslot=timeslot, year=datetime.now().year, title = 'Home')
 
+
+    # Routes to timeslots page
 @app.route('/') 
 @app.route('/timeslots')
 def timeslots():
     timeslot = timeSlots.query.all()
     return render_template("index.html",timeslot=timeslot, year=datetime.now().year, title = 'Timeslots')
 
-    
+    # Creates entries in the database
 @app.route('/create', methods=['GET','POST'])
 def create():
     if request.method == 'POST':
@@ -94,17 +96,14 @@ def create():
             startTime_AMPM = request.form.get("startTime_AMPM")
             endTime = request.form.get("EndTime")
             endTime_AMPM = request.form.get("endTime_AMPM")
-            timeslot = timeSlots.query.all()
             newslot = timeSlots(daysOfWeek = daysOfWeek, startTime = startTime, startTime_AMPM = startTime_AMPM, endTime = endTime, endTime_AMPM = endTime_AMPM)
             db.session.add(newslot)
             db.session.commit()
+            timeslot = timeSlots.query.all()
+            return render_template("index.html",timeslot=timeslot, year=datetime.now().year, title = 'Timeslots')
         
-        
-    newslot = timeSlots.query.all()
-    return render_template("index.html",timeslot=timeslot, year=datetime.now().year, title = 'Timeslots')
-
-
-
+    
+        # Deletes entries in the database
 @app.route('/delete/<timeslot_id>') 
 def delete(timeslot_id):
         timeslot = timeSlots.query.get(timeslot_id)
@@ -160,7 +159,7 @@ def update():
         return render_template("index.html", year=datetime.now().year, timeslot=timeslot, title = 'Timeslots') 
 
 
-    #Renders the about page
+    # Routes to the about page
 @app.route('/about')
 def about():
         return render_template(

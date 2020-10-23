@@ -26,7 +26,8 @@
 
                         <td>
                             <a href="/update/{{timeSlots.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{timeSlots.id}}">Update</a>
-                            <a href="/delete/{{timeSlots.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Confirm Delete?')">Delete</a>
+                           
+                            <a href="" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalDelete">Delete</a>
                         </td>
                     </tr>
 
@@ -35,23 +36,20 @@
                     <div id="modalDelete" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"><h2><label>Create Timeslot</label></h2></h4>
+                                <div class="modal-header" style="text-align:center">
+                                    <h4 class="modal-title"><h2><label>Delete Confirmation</label></h2></h4>
                                 </div>
                                 <div class="modal-body">
 
-                                    <form action="{{url_for('create')}}" method="POST">
-                                        <div class="form-group">
-                                            <label>Start Time:</label>
-                                            <input name="StartTime" class="form-control" type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">create</button>
+                                    <form action="/delete/{{timeSlots.id}}" method="POST">
+                                        <div class="form-group" style="text-align:center">
+                                            <a href="/delete/{{timeSlots.id}}" class="btn btn-danger">Yes</a>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    
                                 </div>
                             </div>
                         </div>
