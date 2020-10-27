@@ -2,12 +2,27 @@
 
 {% block content %}
 <br>
-<div class="jumbotron">
+<div class="jumbotron opa">
     <h2><b>{{ title }}</b></h2>
     <h3>{{ message }}</h3>
     <p>The purpose of the Timeslot Management Application is to record timeslots in a database where they can be created, viewed, edited and deleted (CRUD).</p>
     <br>
     <h2><b>Student Contributors</b></h2>
-    <p>Brandon, Leo Rosman, Johnny</p>
+    <table>
+        <tr>
+            <td align="center" style="padding: 20px;">
+                <img style="border:1px solid black;" src="static/brandon.jpg" alt="Brandon Van Pelt">
+                <p>Brandon Van Pelt</p>
+            </td>
+            <td align="center" style="padding: 20px;">
+                <img style="border:1px solid black;" src="static/johnny.jpg" alt="Johnny Dinh" height="198" width="164">
+                <p>Johnny Dinh</p>
+            </td>
+            <td align="center" style="padding: 20px;">
+                <img style="border:1px solid black;" src="static/rosman.png" alt="Rosman Leo Fokeu" height="198" width="164">
+                <p>Rosman Leo Fokeu</p>
+            </td>
+        </tr>
+    </table>
 </div>
 {% endblock %}

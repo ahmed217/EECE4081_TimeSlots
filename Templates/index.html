@@ -1,195 +1,160 @@
-﻿{% extends "layout.html" %}
-
+﻿﻿{% extends "layout.html" %}
 {% block content %}
 <br>
-<div class="container">
-    <div class="row">
-        <div class="col md-12">
-            <div class="jumbotron p-3">
 
-                <h2>
-                    <b>{{ title }} </b>
-                </h2>
-
-                <table class="table table-hover table-dark">
-                    <tr>
-                        <th>Week days</th>
-                        <th>Time period</th>
-                        <th><a href="/create/" class="btn btn-primary" data-toggle="modal" data-target="#modalCreate">New Timeslot</a></th>
-                        <th></th>
-                    </tr>
-
-                    {% for timeSlots in timeslot %}
-                    <tr>
-                        <th>{{ timeSlots.daysOfWeek }}</th>
-                        <th>{{ timeSlots.startTime }} {{ timeSlots.startTime_AMPM }} - {{ timeSlots.endTime }} {{ timeSlots.endTime_AMPM  }}</th>
-
-                        <td>
-                            <a href="/update/{{timeSlots.id}}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modaledit{{timeSlots.id}}">Update</a>
-                           
-                            <a href="" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalDelete">Delete</a>
-                        </td>
-                    </tr>
-
-
-
-                    <div id="modalDelete" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header" style="text-align:center">
-                                    <h4 class="modal-title"><label>Delete Confirmation</label></h4>
-                                </div>
-                                <div class="modal-body">
-
-                                    <form action="/delete/{{timeSlots.id}}" method="POST">
-                                        <div class="form-group" style="text-align:center">
-                                            <a href="/delete/{{timeSlots.id}}" class="btn btn-danger">Yes</a>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    
-                                </div>
-                            </div>
-                        </div>
+<div id="modalCreate" class="modal fade" role="dialog" style=" font-size: 21px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><label>Create Timeslot</label></h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('create')}}" method="POST">
+                    <div class="form-group">
+                        <label>Start Time:</label>
+                        <input name="StartTime" class="form-control" type="text" placeholder="11:00">
                     </div>
-
-
-
-
-
-                    <div id="modalCreate" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"><h2><label>Create Timeslot</label></h2></h4>
-                                </div>
-                                <div class="modal-body">
-
-                                    <form action="{{url_for('create')}}" method="POST">
-
-                                        <div class="form-group">
-                                            <label>Start Time:</label>
-                                            <input name="StartTime" class="form-control" type="text">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <select name="startTime_AMPM" class="form-control">
-                                                <option value="AM">AM</option>
-                                                <option value="PM">PM</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>End Time:</label>
-                                            <input name="EndTime" class="form-control" type="text">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <select name="endTime_AMPM" class="form-control">
-                                                <option value="AM">AM</option>
-                                                <option value="PM">PM</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-
-                                            <label for="monday">Monday</label><input type="checkbox" name="Monday" id="monday" value="true">
-                                            <br>
-                                            <label for="tuesday">Tuesday</label><input type="checkbox" name="Tuesday" id="tuesday" value="true">
-                                            <br>
-                                            <label for="wednesday">Wednesday</label><input type="checkbox" name="Wednesday" id="wednesday" value="true">
-                                            <br>
-                                            <label for="thursday">Thursday</label><input type="checkbox" name="Thursday" id="thursday" value="true">
-                                            <br>
-                                            <label for="friday">Friday</label><input type="checkbox" name="Friday" id="friday" value="true">
-                                            <br>
-                                            <label for="saturday">Saturday</label><input type="checkbox" name="Saturday" id="saturday" value="true">
-
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">create</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <select name="startTime_AMPM" class="form-control">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
                     </div>
-
-
-
-
-                    <div id="modaledit{{timeSlots.id}}" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"><h2><label>Update Timeslot</label></h2></h4>
-                                </div>
-                                <div class="modal-body">
-
-                                    <form action="{{url_for('update')}}" method="POST">
-
-                                        <div class="form-group">
-                                            <label>Start Time:</label>
-                                            <input type="hidden" name="id" value="{{timeSlots.id}}">
-                                            <input type="text" class="form-control" name="startTime" value="{{timeSlots.startTime}}">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <select name="startTime_AMPM" class="form-control">
-                                                <option value="AM" {% if timeSlots.startTime_AMPM=='AM' %} selected {% endif %}> AM </option>
-                                                <option value="PM" {% if timeSlots.startTime_AMPM=='PM' %} selected {% endif %}> PM </option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>End Time:</label>
-                                            <input type="text" class="form-control" name="endTime" value="{{timeSlots.endTime}}">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <select name="endTime_AMPM" class="form-control">
-                                                <option value="AM" {% if timeSlots.endTime_AMPM =='AM' %} selected {% endif %}> AM </option>
-                                                <option value="PM" {% if timeSlots.endTime_AMPM =='PM' %} selected {% endif %}> PM </option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="monday{{timeSlots.id}}">Monday</label><input type="checkbox" name="Monday" id="monday{{timeSlots.id}}" {{'checked' if 'M' in timeSlots.daysOfWeek else ''}} value="true">
-                                            <br>
-                                            <label for="tuesday{{timeSlots.id}}">Tuesday</label><input type="checkbox" name="Tuesday" id="tuesday{{timeSlots.id}}" {{'checked' if 'T' in timeSlots.daysOfWeek else ''}} value="true">
-                                            <br>
-                                            <label for="wednesday{{timeSlots.id}}">Wednesday</label><input type="checkbox" name="Wednesday" id="wednesday{{timeSlots.id}}" {{'checked' if 'W' in timeSlots.daysOfWeek else ''}} value="true">
-                                            <br>
-                                            <label for="thursday{{timeSlots.id}}">Thursday</label><input type="checkbox" name="Thursday" id="thursday{{timeSlots.id}}" {{'checked' if 'R' in timeSlots.daysOfWeek else ''}} value="true">
-                                            <br>
-                                            <label for="friday{{timeSlots.id}}">Friday</label><input type="checkbox" name="Friday" id="friday{{timeSlots.id}}" {{'checked' if 'F' in timeSlots.daysOfWeek else ''}} value="true">
-                                            <br>
-                                            <label for="saturday{{timeSlots.id}}">Saturday</label><input type="checkbox" name="Saturday" id="saturday{{timeSlots.id}}" {{'checked' if 'S' in timeSlots.daysOfWeek else ''}} value="true">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">update</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label>End Time:</label>
+                        <input name="EndTime" class="form-control" type="text" placeholder="2:00">
                     </div>
-                    {% endfor %}
-                </table>
+                    <div class="form-group">
+                        <select name="endTime_AMPM" class="form-control">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+
+                        <label for="monday">Monday</label><input type="checkbox" name="Monday" id="monday" value="true">
+                        <br>
+                        <label for="tuesday">Tuesday</label><input type="checkbox" name="Tuesday" id="tuesday" value="true">
+                        <br>
+                        <label for="wednesday">Wednesday</label><input type="checkbox" name="Wednesday" id="wednesday" value="true">
+                        <br>
+                        <label for="thursday">Thursday</label><input type="checkbox" name="Thursday" id="thursday" value="true">
+                        <br>
+                        <label for="friday">Friday</label><input type="checkbox" name="Friday" id="friday" value="true">
+                        <br>
+                        <label for="saturday">Saturday</label><input type="checkbox" name="Saturday" id="saturday" value="true">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">create</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
+<div class="p-3">
+
+    <table class="table table-hover table-dark jumbotron opa">
+        <tr><th><h2><b>{{ title }} </b></h2></th></tr>
+        
+        <tr>
+            <th>Week days</th>
+            <th>Time period</th>
+            <th><a href="/create/" class="btn btn-primary" data-toggle="modal" data-target="#modalCreate">New Timeslot</a></th>
+            <th></th>
+        </tr>
+
+
+        {% for timeSlots in timeslot %}
+        <tr>
+            <th>{{ timeSlots.daysOfWeek }}</th>
+            <th>{{ timeSlots.startTime }} {{ timeSlots.startTime_AMPM }} - {{ timeSlots.endTime }} {{ timeSlots.endTime_AMPM  }}</th>
+
+            <td>
+                <a href="/update/{{timeSlots.id}}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modaledit{{timeSlots.id}}">Update</a>
+
+                <a href="" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete{{ timeSlots.id }}">Delete</a>
+            </td>
+        </tr>
+
+
+        <div id="delete{{ timeSlots.id }}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="text-align:center">
+                        <h4 class="modal-title"><label>Delete Confirmation</label></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" style="text-align:center">
+                            <a href="/delete/{{timeSlots.id}}" class="btn btn-danger">Yes</a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="modaledit{{timeSlots.id}}" class="modal fade" role="dialog" style=" font-size: 21px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><label>Update Timeslot</label></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{url_for('update')}}" method="POST">
+                            <div class="form-group">
+                                <label>Start Time:</label>
+                                <input type="hidden" name="id" value="{{timeSlots.id}}">
+                                <input type="text" class="form-control" name="startTime" value="{{timeSlots.startTime}}">
+                            </div>
+                            <div class="form-group">
+                                <select name="startTime_AMPM" class="form-control">
+                                    <option value="AM" {% if timeSlots.startTime_AMPM=="AM" %} selected {% endif %}> AM </option>
+                                    <option value="PM" {% if timeSlots.startTime_AMPM=="PM" %} selected {% endif %}> PM </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>End Time:</label>
+                                <input type="text" class="form-control" name="endTime" value="{{timeSlots.endTime}}">
+                            </div>
+                            <div class="form-group">
+                                <select name="endTime_AMPM" class="form-control">
+                                    <option value="AM" {% if timeSlots.endTime_AMPM=="AM" %} selected {% endif %}> AM </option>
+                                    <option value="PM" {% if timeSlots.endTime_AMPM=="PM" %} selected {% endif %}> PM </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="monday{{timeSlots.id}}">Monday</label><input type="checkbox" name="Monday" id="monday{{timeSlots.id}}" {{'checked' if 'M' in timeSlots.daysOfWeek else ''}} value="true">
+                                <br>
+                                <label for="tuesday{{timeSlots.id}}">Tuesday</label><input type="checkbox" name="Tuesday" id="tuesday{{timeSlots.id}}" {{'checked' if 'T' in timeSlots.daysOfWeek else ''}} value="true">
+                                <br>
+                                <label for="wednesday{{timeSlots.id}}">Wednesday</label><input type="checkbox" name="Wednesday" id="wednesday{{timeSlots.id}}" {{'checked' if 'W' in timeSlots.daysOfWeek else ''}} value="true">
+                                <br>
+                                <label for="thursday{{timeSlots.id}}">Thursday</label><input type="checkbox" name="Thursday" id="thursday{{timeSlots.id}}" {{'checked' if 'R' in timeSlots.daysOfWeek else ''}} value="true">
+                                <br>
+                                <label for="friday{{timeSlots.id}}">Friday</label><input type="checkbox" name="Friday" id="friday{{timeSlots.id}}" {{'checked' if 'F' in timeSlots.daysOfWeek else ''}} value="true">
+                                <br>
+                                <label for="saturday{{timeSlots.id}}">Saturday</label><input type="checkbox" name="Saturday" id="saturday{{timeSlots.id}}" {{'checked' if 'S' in timeSlots.daysOfWeek else ''}} value="true">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">update</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </table>
 </div>
 {% endblock %}

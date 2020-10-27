@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\static",
+    "\\static\\content",
+    "\\static\\fonts",
+    "\\Templates"
   ],
-  "SelectedNode": "\\test_timeslots.py",
+  "SelectedNode": "\\app.py",
   "PreviewInSolutionExplorer": false
 }
