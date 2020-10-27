@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import re
 import os
 import pytest
-import jsonify
+
 
 
 # install using,  pip3 install sqlalchemy flask-sqlalchemy 
@@ -42,13 +42,6 @@ db = SQLAlchemy(app)
     #assert b'Hello, world!' in main_page.data
     #assert b'brand in main_page.data
     #assert b'prince' in main_page.data
-
-
-@app.route('/json_dump')
-def json_dump():
-    timeslot = Rooms.query.all()
-    json_data = jsonify( json_list = [i.serialize() for i in timeslot] )
-    return json_data 
 
 
     # Routes to home page
