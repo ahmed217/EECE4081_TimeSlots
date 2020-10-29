@@ -1,9 +1,8 @@
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import re
 import os
 import pytest
-
 
 
 # install using,  pip3 install sqlalchemy flask-sqlalchemy 
@@ -43,6 +42,13 @@ db = SQLAlchemy(app)
     #assert b'brand in main_page.data
     #assert b'prince' in main_page.data
 
+@app.route('/json_dump')
+def json_dump():
+    all_timeSlots = timeSlots.query.all()
+    json_data = jsonify( json_list = [i.serialize() for i in all_timeSlots] )
+    return json_data
+    collected_data = [] # Your data
+    return jsonify(results=collected_data)
 
     # Routes to home page
 @app.route('/') 
@@ -181,6 +187,16 @@ class timeSlots(db.Model):
     startTime_AMPM = db.Column(db.String(255), nullable = False)
     endTime = db.Column(db.String(255), nullable = False)
     endTime_AMPM = db.Column(db.String(255), nullable = False)
+
+    def serialize(self):
+        return {
+            'id'        :   self.id,
+            'daysOfWeek'      :   self.daysOfWeek,
+            'startTime'    :   self.startTime,
+            'startTime_AMPM'  :   self.startTime_AMPM,
+            'endTime'    :   self.endTime,
+            'endTime_AMPM'  :   self.endTime_AMPM
+            }
 
 #if __name__ == '__main__':
 #    app.run(debug=True)
